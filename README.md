@@ -74,7 +74,3 @@ $ npx wscat -c ws://localhost:8080
 
 - The server broadcasts any message it receives from one client to **all** connected clients, including the sender.
 - Use `CTRL+C` to gracefully shut down the server or client.
-
-## License
-
-MIT
