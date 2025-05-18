@@ -2,17 +2,17 @@ const WebSocket = require("ws");
 
 let clients = [];
 
-modules.exports.startServer = () => {
-  const wss = new WebSocket.Server({ port: 8080 }, () => {
-    console.log("WebSocket server started on port 8080");
+const startServer = ({ port }) => {
+  const wss = new WebSocket.Server({ port }, () => {
+    console.log(`WebSocket server started on port ${port}`);
   });
 
   wss.on("connection", (ws) => {
     clients.push(ws);
     console.log("New client connected. Total clients: ", clients.length);
 
-    wss.on("message", (message) => {
-      console.log("Received message: ", message);
+    ws.on("message", (message) => {
+      console.log("Received message: ", message.toString());
 
       // Broadcast to all clients
       clients.forEach((client) => {
@@ -34,3 +34,5 @@ modules.exports.startServer = () => {
     process.exit(0);
   });
 };
+
+module.exports = { startServer }
