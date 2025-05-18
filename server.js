@@ -11,7 +11,16 @@ modules.exports.startServer = () => {
     clients.push(ws);
     console.log("New client connected. Total clients: ", clients.length);
 
-    wss.on("message", (message) => {});
+    wss.on("message", (message) => {
+      console.log("Received message: ", message);
+
+      // Broadcast to all clients
+      clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(message.toString());
+        }
+      });
+    });
 
     ws.on("close", () => {
       clients = clients.filter((client) => client !== ws);
